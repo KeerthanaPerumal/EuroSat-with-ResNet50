@@ -1,17 +1,21 @@
 
 import os
 
+from torch.utils.data import Dataset
 from torchvision import datasets, transforms
+from torch.utils import data
 from torch.utils.data import DataLoader
+import torch
+import numpy as np
 
-NUM_WORKERS = os.cpu_count() 
+num_workers = os.cpu_count() 
 
 class EuroSAT(torch.utils.data.Dataset):
     def __init__(self, dataset, transform=None):
         self.dataset = dataset
         self.transform = transform
 
-    def __getitem__(self, index):
+    def __getitem__(self, dataset,index):
         if self.transform:
           x = self.transform(dataset[index][0])
         else:
@@ -19,7 +23,7 @@ class EuroSAT(torch.utils.data.Dataset):
         y = dataset[index][1]
         return x, y
 
-    def __len__(self):
+    def __len__(self, dataset):
         return len(dataset)
     
 
@@ -51,7 +55,7 @@ def sentinel_transforms(dataset):
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor()])
 
-    val_transforms = transforms.Compose([
+    test_transforms = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor()])
