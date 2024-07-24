@@ -4,7 +4,7 @@ import torch
 def resnet50_imgnet():
     resnet50_imgnet = models.resnet50(pretrained=True)
     num_classes = 10
-    resnet50_imgnet.fc = torch.nn.Linear(resnet50_imgnet.fc.in_features, len(num_classes))
+    resnet50_imgnet.fc = torch.nn.Linear(resnet50_imgnet.fc.in_features, num_classes)
     return (resnet50_imgnet)
 
 
@@ -13,8 +13,8 @@ def resnet50_imgnet():
 def resnet50_sent2():
     resnet50_sent2 = models.resnet50(pretrained=False)
     num_classes = 10
-    resnet50_sent2.fc = torch.nn.Linear(resnet50_sent2 .fc.in_features, len(num_classes))
-    resnet50_sent2_path = r'C:\Users\bccpe\Documents\spatial data science\B3_rn50_moco_0099_ckpt.pth'
+    resnet50_sent2.fc = torch.nn.Linear(resnet50_sent2 .fc.in_features, num_classes)
+    resnet50_sent2_path = r'C:\Users\bccpe\EuroSAT_ResNet50\EuroSat-with-ResNet50-1\B3_rn50_moco_0099_ckpt.pth'
     num_classes = 10
 
     checkpoint = torch.load(resnet50_sent2_path)

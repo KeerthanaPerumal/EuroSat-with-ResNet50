@@ -8,14 +8,16 @@ from torch.utils.data import DataLoader
 import torch
 import numpy as np
 
-num_workers = os.cpu_count() 
-
+num_workers = 2
+#os.cpu_count() 
+dataset_path = 'data_dir/eurosat/2750'
+dataset = datasets.ImageFolder(dataset_path)
 class EuroSAT(torch.utils.data.Dataset):
     def __init__(self, dataset, transform=None):
         self.dataset = dataset
         self.transform = transform
 
-    def __getitem__(self, dataset,index):
+    def __getitem__(self, index):
         if self.transform:
           x = self.transform(dataset[index][0])
         else:
@@ -23,7 +25,7 @@ class EuroSAT(torch.utils.data.Dataset):
         y = dataset[index][1]
         return x, y
 
-    def __len__(self, dataset):
+    def __len__(self):
         return len(dataset)
     
 
@@ -84,30 +86,30 @@ def data_split(train_data, test_data, dataset):
     return (train_data, val_data, test_data)
 
 
-def data_loaders(train_data, val_data, test_data, batch_size, num_workers):
+def data_loaders(train_data, val_data, test_data, batch_size, ):
     train_loader = data.DataLoader(
-    train_data, batch_size=batch_size, num_workers=num_workers, shuffle=True
+    train_data, batch_size=batch_size, shuffle=True
     )
 
     val_loader = data.DataLoader(
-    val_data, batch_size=batch_size, num_workers=num_workers, shuffle=False
+    val_data, batch_size=batch_size,  shuffle=False
     )
 
     test_loader = data.DataLoader(
-    test_data, batch_size=batch_size, num_workers=num_workers, shuffle=False
+    test_data, batch_size=batch_size, shuffle=False
     )
     
     return train_loader, val_loader, test_loader
    
-def create_dataloaders(dataset_path, pre_train_type, batch_size, num_workers):
+def create_dataloaders(dataset_path, pre_train_type, batch_size):
     dataset = datasets.ImageFolder(dataset_path)
     if pre_train_type == 'imagenet':
         image_net_train_data, image_net_test_data = image_net_transforms(dataset)
         train_data, val_data, test_data = data_split(image_net_train_data, image_net_test_data, dataset)
-        train_loader, val_loader, test_loader = data_loaders(train_data, val_data, test_data, batch_size, num_workers)
+        train_loader, val_loader, test_loader = data_loaders(train_data, val_data, test_data, batch_size)
     else:
         sentinel_train_data, sentinel_test_data = sentinel_transforms(dataset)
-        train_data, val_data, test_data = data_split(sentinel_train_data, image_net_test_data, dataset)
-        train_loader, val_loader, test_loader = data_loaders(train_data, val_data, test_data, batch_size, num_workers)
+        train_data, val_data, test_data = data_split(sentinel_train_data, sentinel_test_data, dataset)
+        train_loader, val_loader, test_loader = data_loaders(train_data, val_data, test_data, batch_size)
 
     return(train_loader, val_loader, test_loader)

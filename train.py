@@ -9,27 +9,27 @@ import data_setup, engine, model_builder, utils
 # Setup directories
 #train_dir = "data/pizza_steak_sushi/train"
 #test_dir = "data/pizza_steak_sushi/test"
-data_path = 'data/eurosat/2750'
+#r'C:\Users\bccpe\EuroSAT_ResNet50\EuroSat-with-ResNet50-1\data_dir\eurosat\2750'
+data_path = 'data_dir/eurosat/2750'
 
 # Setup target device
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 batch_size = 64
-num_workers = os.cpu_count() 
+num_workers = 2
+#os.cpu_count() 
 # Create transforms
 
 image_net_train_dataloader, image_net_val_dataloader,  image_net_test_dataloader = data_setup.create_dataloaders(
-    data_dir = data_path,
+    dataset_path = data_path,
     batch_size = batch_size,
-    num_workers = num_workers,
     pre_train_type ='imagenet')
 
 
 sentinel_train_dataloader, sentinel_val_dataloader, sentinel_test_dataloader = data_setup.create_dataloaders(
-    data_dir = data_path,
+    dataset_path = data_path,
     batch_size = batch_size,
-    num_workers = num_workers,
     pre_train_type = 'sentinel'
 )
 

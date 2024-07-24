@@ -1,5 +1,6 @@
 
 from typing import Dict, List, Tuple
+from tqdm.notebook import tqdm
 import torch 
 from torch.utils import tensorboard
 
