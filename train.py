@@ -42,7 +42,7 @@ learning_rate = 0.001
 
 
 experiment_number = 0
-models = [resnet50_imgnet, resnet50_sent2]
+models = [ resnet50_sent2, resnet50_imgnet]
 utils.set_seeds(seed=42) 
 
 for model in models:
@@ -77,7 +77,7 @@ for model in models:
                 optimizer = torch.optim.SGD(resnet50_sent2.parameters(), lr=learning_rate),
                 epochs = num_epochs,
                 device = device,
-                writer = utils.create_writer(experiment_name='Exp2 - ResNet50 pretrained with Sentinel2 ',
+                writer = utils.create_writer(experiment_name='Exp2 - ResNet50 pretrained with Sentinel2',
                                         model_name='resnet50_sent2',
                                         extra=f"{num_epochs}_epochs"))
         save_filepath = "resnet50_sent2_checkpoint.pth"
