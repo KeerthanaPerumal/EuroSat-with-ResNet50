@@ -62,7 +62,7 @@ def save_model(model: torch.nn.Module,
   torch.save(obj=model.state_dict(),
              f=model_save_path)
   
-  def set_seeds(seed: int=42):
+def set_seeds(seed: int=42):
     """Sets random sets for torch operations.
 
     Args:
