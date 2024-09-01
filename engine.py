@@ -1,6 +1,6 @@
 
 from typing import Dict, List, Tuple
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 import torch 
 from torch.utils import tensorboard
 
@@ -35,7 +35,7 @@ def train_step(model: torch.nn.Module,
   train_loss, train_acc = 0, 0
 
   # Loop through data loader data batches
-  for batch, (X, y) in enumerate(dataloader):
+  for batch, (X, y) in enumerate(tqdm(dataloader)):
       # Send data to target device
       X, y = X.to(device), y.to(device)
 
@@ -94,7 +94,7 @@ def test_step(model: torch.nn.Module,
   # Turn on inference context manager
   with torch.inference_mode():
       # Loop through DataLoader batches
-      for batch, (X, y) in enumerate(dataloader):
+      for batch, (X, y) in enumerate(tqdm(dataloader)):
           # Send data to target device
           X, y = X.to(device), y.to(device)
 
@@ -162,7 +162,8 @@ def train(model: torch.nn.Module,
   }
 
   # Loop through training and testing steps for a number of epochs
-  for epoch in tqdm(range(epochs)):
+  for epoch in range(epochs):
+      print("Epoch {}".format(epoch+1))
       train_loss, train_acc = train_step(model=model,
                                           dataloader=train_dataloader,
                                           loss_fn=loss_fn,
