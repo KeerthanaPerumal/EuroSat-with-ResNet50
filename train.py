@@ -7,9 +7,6 @@ from torchvision import transforms
 import data_setup, engine, model_builder, utils
 
 # Setup directories
-#train_dir = "data/pizza_steak_sushi/train"
-#test_dir = "data/pizza_steak_sushi/test"
-#r'C:\Users\bccpe\EuroSAT_ResNet50\EuroSat-with-ResNet50-1\data_dir\eurosat\2750'
 data_path = 'data_dir/eurosat/2750'
 
 # Setup target device
@@ -54,7 +51,7 @@ for model in models:
     print(f"[INFO] Number of epochs: {num_epochs}")
 
     if model == resnet50_imgnet:
-        print(f"[INFO] Model: {'ResNet50 pretrained with Imagenet'}")
+        print("[INFO] Model: 'ResNet50 pretrained with Imagenet'")
         engine.train(model=model,
                 train_dataloader = image_net_train_dataloader,
                 test_dataloader = image_net_val_dataloader,
@@ -72,7 +69,7 @@ for model in models:
         print("-"*50 + "\n")
         
     else:
-        print(f"[INFO] Model: {'ResNet50 pretrained with Sentinel2'}")
+        print("[INFO] Model:'ResNet50 pretrained with Sentinel2'")
         engine.train(model=model,
                 train_dataloader = sentinel_train_dataloader,
                 test_dataloader= sentinel_val_dataloader,
