@@ -40,43 +40,52 @@ resnet50_sent2 = model_builder.resnet50_sent2().to(device)
 
 # Setup hyperparameters
 num_epochs = 5
-hidden_units = 10
 learning_rate = 0.001
 
-# Specify criterion and optimizer
-criterion = torch.nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(resnet50_imgnet.parameters(), lr=learning_rate)
+
 
 experiment_number = 0
 models = [resnet50_imgnet, resnet50_sent2]
+utils.set_seeds(seed=42) 
 
 for model in models:
     experiment_number += 1
     print(f"[INFO] Experiment number: {experiment_number}")
-    print(f"[INFO] Model: {str(model)}")
     print(f"[INFO] Number of epochs: {num_epochs}")
 
     if model == resnet50_imgnet:
+        print(f"[INFO] Model: {'ResNet50 pretrained with Imagenet'}")
         engine.train(model=model,
                 train_dataloader = image_net_train_dataloader,
                 test_dataloader = image_net_val_dataloader,
-                loss_fn = criterion,
-                optimizer = optimizer,
+                loss_fn = torch.nn.CrossEntropyLoss(),
+                optimizer = torch.optim.SGD(resnet50_imgnet.parameters(), lr=learning_rate),
                 epochs = num_epochs,
                 device = device,
-                writer = utils.create_writer(experiment_name='exp1',
-                                        model_name='restnet',
+                writer = utils.create_writer(experiment_name='Exp1 - ResNet50 pretrained with Imagenet',
+                                        model_name='resnet50_imgmet',
                                         extra=f"{num_epochs}_epochs"))
+        save_filepath = "resnet50_imgmet_checkpoint.pth"
+        utils.save_model(model=model,
+                       target_dir="models",
+                       model_name=save_filepath)
+        print("-"*50 + "\n")
         
     else:
+        print(f"[INFO] Model: {'ResNet50 pretrained with Sentinel2'}")
         engine.train(model=model,
-                train_dataloader = image_net_train_dataloader,
-                test_dataloader= image_net_val_dataloader,
-                loss_fn = criterion,
-                optimizer = optimizer,
+                train_dataloader = sentinel_train_dataloader,
+                test_dataloader= sentinel_val_dataloader,
+                loss_fn = torch.nn.CrossEntropyLoss(),
+                optimizer = torch.optim.SGD(resnet50_sent2.parameters(), lr=learning_rate),
                 epochs = num_epochs,
                 device = device,
-                writer = utils.create_writer(experiment_name='exp1',
-                                        model_name='restnet',
+                writer = utils.create_writer(experiment_name='Exp2 - ResNet50 pretrained with Sentinel2 ',
+                                        model_name='resnet50_sent2',
                                         extra=f"{num_epochs}_epochs"))
+        save_filepath = "resnet50_sent2_checkpoint.pth"
+        utils.save_model(model=model,
+                       target_dir="models",
+                       model_name=save_filepath)
+        print("-"*50 + "\n")
         
