@@ -42,7 +42,7 @@ learning_rate = 0.001
 
 
 experiment_number = 0
-models = [ resnet50_sent2, resnet50_imgnet]
+models = [resnet50_imgnet, resnet50_sent2]
 utils.set_seeds(seed=42) 
 
 for model in models:
