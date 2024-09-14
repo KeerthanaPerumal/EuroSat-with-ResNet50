@@ -86,7 +86,7 @@ def data_split(train_data, test_data, dataset):
     return (train_data, val_data, test_data)
 
 
-def data_loaders(train_data, val_data, test_data, batch_size, ):
+def data_loaders(train_data, val_data, test_data, batch_size ):
     train_loader = data.DataLoader(
     train_data, batch_size=batch_size, shuffle=True
     )

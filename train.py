@@ -18,6 +18,7 @@ num_workers = 2
 #os.cpu_count() 
 # Create transforms
 
+
 image_net_train_dataloader, image_net_val_dataloader,  image_net_test_dataloader = data_setup.create_dataloaders(
     dataset_path = data_path,
     batch_size = batch_size,
